@@ -1,32 +1,18 @@
 package com.thinkopen.academy.dao;
 
 import com.thinkopen.academy.entity.Student;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-@Repository
-public class StudentDao {
+public interface StudentDao {
+    Collection<Student> getAllStudents();
 
-    private static Map<Integer, Student> students;
+    Collection<Student> insertStudents(Collection<Student> students);
 
-    static {
-        students = new HashMap<Integer, Student>() {
-            {
-                put(1, new Student(1, "Said", "Computer Science"));
-                put(2, new Student(2, "Alex U", "Finance"));
-                put(3, new Student(3, "Anna", "Maths"));
-            }
-        };
-    }
+    Student insertStudent(Student student);
 
-    public Collection<Student> getAllStudents() {
-        return students.values();
-    }
+    Student getStudentById(int id);
 
-    public Student getStudentById(int id) {
-        return students.get(id);
-    }
+    Student removeStudentById(int id);
 }

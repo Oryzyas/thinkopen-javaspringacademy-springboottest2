@@ -1,9 +1,21 @@
 package com.thinkopen.academy.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "students")
 public class Student {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Basic
     private String name;
+
+    @Basic
     private String course;
 
     public Student() {
@@ -18,6 +30,25 @@ public class Student {
         this.course = course;
     }
 
+    public Student(String name, String course) {
+        this.name = name;
+        this.course = course;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+
+        Student student = (Student) o;
+
+        return id == student.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 
     public int getId() {
         return id;
@@ -41,5 +72,10 @@ public class Student {
 
     public void setCourse(String course) {
         this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + " " + getName() + " " + getCourse();
     }
 }

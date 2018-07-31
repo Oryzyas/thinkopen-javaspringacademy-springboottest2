@@ -3,12 +3,13 @@ package com.thinkopen.academy.controller;
 import com.thinkopen.academy.entity.Student;
 import com.thinkopen.academy.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/students")
@@ -22,8 +23,28 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Student getStudentById(@PathVariable("id") int id) {
+    @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
+    public Collection<Student> getAllStudents(@PathVariable String name) {
+        return studentService.getAllStudentsByName(name);
+    }
+
+    /*@RequestMapping(method = RequestMethod.POST)
+    public Student insertStudent(@RequestBody Student student) {
+        return studentService.insertStudent(student);
+    }*/
+
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<Student> insertStudents(@RequestBody Collection<Student> students) {
+        return studentService.insertStudents(students);
+    }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+    public Optional<Student> getStudentById(@PathVariable("id") int id) {
         return studentService.getStudentById(id);
+    }
+
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+    public void removeStudentById(@PathVariable("id") int id) {
+        studentService.removeStudentById(id);
     }
 }
